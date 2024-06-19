@@ -13,7 +13,9 @@ reboot
 ====================================================================
 
 cd /home
+
 ls
+
 sudo apt install -y git && git clone https://github.com/thigranpeio/TZap24_install.git instalador && sudo chmod -R 777 instalador  && cd instalador  && sudo ./install_primaria
 
 - Insira senha para o usuário Deploy e Banco de Dados (Não utilizar caracteres especiais ou letras maiúsculas)
