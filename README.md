@@ -9,6 +9,8 @@ sudo apt-get install curl
 curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 
 reboot
+
+
 ====================================================================
 ====================================================================
 
@@ -47,7 +49,46 @@ sudo apt install -y git && git clone https://github.com/thigranpeio/TZap24_insta
 
 - Digite a porta do REDIS/AGENDAMENTO MSG para a appbot; Ex: 5000 A 5999 = padrão dos redis é 6379 / na instalação com docker usar 5000
 5000
-
 e aguarde o fim da instalação!
+
+
 ====================================================================
 ====================================================================
+
+- Fix nginx.conf
+- Corrigir erros de atualização da página.
+- Edite o arquivo de configurações do nginx: 
+nano /etc/nginx/nginx.conf
+
+- adicione o header abaixo: (imediatamente acima de # server_tokens off;)
+
+underscores_in_headers on;
+
++ Ctrl e X para fechar o terminal, e Y para salvar as alterações.
+
+- Teste as alterações do nginx:
+
+nginx -t
+
+- Reinicie o serviço:
+
+service nginx reload
+
+
+====================================================================
+====================================================================
+
+- Fix Baileys, reinicio programado das aplicações node.
+
+crontab -e
+
+Se você tiver vários editores de texto instalados, o sistema solicitará que você selecione um editor para atualizar a lista de tarefas cron. Use o número entre parênteses para escolher sua opção preferida. Estaremos usando a opção padrão, nano. (Escolha numéricanúmerica).
+
+No modelo abaixo TODO DIA as 23:59 teremos um reinicialização do frontend e do backend.
+
+59 23 * * * /usr/bin/node /usr/bin/pm2 restart all
+
+
+
+https://drive.google.com/file/d/1L5pxteLT2UF0lfCelN6xYMNFRaaSvffu/view
+
