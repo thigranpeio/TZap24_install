@@ -1,6 +1,6 @@
-ORIENTAÇOES SOBRE O TZAP
+ORIENTAÇÕES SOBRE O TZAP
 
-Índice
+Índice:
 
 01. Informações Importantes
 02. Link do GitHub
@@ -9,136 +9,95 @@ ORIENTAÇOES SOBRE O TZAP
 05. Instalador do Whaticket - Passo 02
 06. Processo de instalação no terminal ssh - Passo 03
 07. Fix nginx.conf
-08. Fix Baileys, reinicio programado das aplicações nodes
+08. Fix Baileys, reinício programado das aplicações nodes
 09. Comandos node / pm2
-10. Particularidades VPSDime - Realize esse procedimento antes da instalação.
+10. Particularidades VPSDime - Procedimento antes da instalação
 11. Habilitar Efi, Personalização e Teste Redis
 12. Canais de Ajuda
 13. Instalação com Docker / Ubuntu 22
+14. Como Atualizar o TZAP
 
 =====================================================================================
-=====================================================================================
-
 
 01. Informações Importantes
 
-Utilizar Ubuntu 20.04
-Mínimo requerido: 4 vcpu e 6gb RAM
-Recomendado: 4 vcpu e 8gb RAM
+- Utilize Ubuntu 20.04
+- Mínimo requerido: 4 vcpu e 6gb RAM
+- Recomendado: 4 vcpu e 8gb RAM
 
-**** Somente instale quando os endereços de frontend e backend estiverem pingando para o ip do servidor.
+** Somente instale quando os endereços de frontend e backend estiverem pingando para o IP do servidor.
 
-Confira em https://dnschecker.org/ se está propagado em todas as regiões.
+- Confira em https://dnschecker.org/ se está propagado em todas as regiões.
+- Não utilize caracteres especiais, letras maiúsculas ou números no nome do app.
+- Confira se o provedor de serviço VPS tem firewall e libere as portas 22, 80, 443, 3000, 4000, 5000, 5432 e 6379.
+- Caso o servidor não acesse direto com root, use `sudo su` ou `sudo passwd root` para habilitar o login root.
 
-**** Não utilize caracteres especiais e letras maiúsculas no processo de instalação, não utilize numeros no nome de app.
-
-**** Confira se seu provedor de serviço de vps tem algum firewall e a necessidade de liberar portas nele.
-As portas em uso são 22, 80, 443, 3000, 4000, 5000, 5432 e 6379.
-
-**** Se o seu servidor não acessa direto com usuário root habilite o privilegio com o comando sudo su, ou sudo passwd root (defina uma senha root), sudo su e faça o login com a senha que cadastrou.
-
-*** Nunca delete o usuário admin, id 1 e a empresa criada na instalação, ao editar os dados do usuário superadmin não se esqueça de preencher a senha atual ou uma nova senha, se não ele salva a senha em branco no banco de dados.
-
-**** Vá em configurações e empresas para habilitar o envio de campanhas. Após ativar faça logout e login para o menu aparecer.
-
-**** O Plano 1 pode ser excluído, ele não aceita troca de nome, mas ao excluir vincule um novo plano a empresa 1, se não, não vai conseguir adicionar conexões, filas e novos usuários.
-
-**** Ao mudar gerenciamento de horários, esvazie os campos preenchidos da opção atual, exemplo ao mudar de um gerenciamento de horário por fila para por empresa, vá as horários das filas e deixe os horários em branco (para que as informações dos horários sejam apagadas do banco de dados), faça o mesmo se for trocar um gerenciamento de horário de empresa para fila, limpando os campos de horários da empresa ou se desativar o horário limpando os campos atualmente ativos.
+** Nunca delete o usuário admin (id 1) ou a empresa criada na instalação.
+** Habilite o envio de campanhas em "configurações" e "empresas". Após ativar, faça logout e login para o menu aparecer.
+** Exclua o Plano 1 e vincule outro plano à empresa 1 antes de adicionar novas conexões, filas e usuários.
+** Ao mudar gerenciamento de horários, limpe os campos de horário anteriores.
 
 =====================================================================================
-=====================================================================================
 
+02. Link do GitHub
 
-02 . Link do GitHub
+- Instalador: https://github.com/thigranpeio/TZap24_install.git
+- Código: https://github.com/thigranpeio/TZap24.git
 
-* Github - Instalador
-https://github.com/thigranpeio/TZap24_install.git
-
-* Código
-https://github.com/thigranpeio/TZap24.git
-
-=====================================================================================
 =====================================================================================
 
 03. Dados da Instalação
 
-Frontend = endereço principal do chatbot: [[app.dominio.com]]
-Backend/API = endereço da api interna: [[api.dominio.com]]
-App: [[nomedoapp]]
-Senha deploy: [[senha-alfanumérica]]
-Usuário super-admin: admin@admin.com
-Senha: 123456
+- Frontend: [[app.dominio.com]]
+- Backend/API: [[api.dominio.com]]
+- App: [[nomedoapp]]
+- Senha Deploy: [[senha-alfanumérica]]
+- Usuário super-admin: admin@admin.com
+- Senha: 123456
 
-=====================================================================================
 =====================================================================================
 
 04. Passo 01 - Atualizar o Servidor
 
-*** Atualizar os pacotes do servidor Ubuntu - utilizando privilegio root:
+Atualize os pacotes do Ubuntu com privilégios root:
+
 sudo apt -y update && apt -y upgrade
 
-Reinicie o servidor para concluir as atualizações:
+
+Reinicie o servidor:
+
 reboot
 
-=====================================================================================
-=====================================================================================
-
-
-05. Passo 02 - Baixar o instalador do github
-
-** Execute esses comandos no seu cliente ssh (recomendado bitvise)
-
-cd /home
-ls
-sudo apt install -y git && git clone https://github.com/thigranpeio/TZap24_install.git instalador && sudo chmod -R 777 instalador  && cd instalador  && sudo ./install_primaria
 
 =====================================================================================
-=====================================================================================
+
+05. Passo 02 - Baixar o Instalador do GitHub
+
+Execute os comandos no terminal SSH:
+
+cd /home sudo apt install -y git && git clone https://github.com/thigranpeio/TZap24_install.git instalador && sudo chmod -R 777 instalador && cd instalador && sudo ./install_primaria
 
 
-06. Passo 03 - Executar a instalação
-
-Siga o passo-a passo do terminal exibido - Tenha atenção ao copiar e colar para não ter espaços no final da expressão:
-
-[0] Instalar 
-
-Insira senha para o usuário Deploy e Banco de Dados (Não utilizar caracteres especiais ou letras maiúsculas)
-[[senhadeploy]]
-
-Insira o link do GITHUB do seu Whaticket que deseja instalar:
-https://github.com/thigranpeio/TZap24.git
-
-Informe um nome para a Instancia/Empresa que será instalada (Não utilizar espaços, caracteres especiais ou letras maiúsculas, utilize somente letras minúsculas;):
-tzap
-
-Informe a Qt. de de Conexões/Whats que a poderá cadastrar: 1 a 9999
-9999
-
-Informe a Qt. de Usuários/Atendentes que a poderá cadastrar: de 1 a 9999
-9999
-
-Digite o domínio do FRONTEND/PAINEL; Ex: app.appbot.cloud
-[[app.dominio.com]]
-
-Digite o domínio do BACKEND/API; Ex: api.appbot.cloud
-[[api.dominio.com]]
-
-Digite a porta do FRONTEND para a appbot; Ex: 3000 A 3999
-3000
-
-Digite a porta do BACKEND para esta instancia; Ex: 4000 A 4999
-4000
-
-Digite a porta do REDIS/AGENDAMENTO MSG para a appbot; Ex: 5000 A 5999 = padrão dos redis é 6379 / na instalação com docker usar 5000
-5000
 
 =====================================================================================
-=====================================================================================
 
+06. Passo 03 - Executar a Instalação
+
+Siga o passo a passo do terminal.
+
+Exemplo de preenchimento:
+
+- Conexões/Whats: 9999
+- Usuários/Atendentes: 9999
+- Domínio Frontend: [[app.dominio.com]]
+- Domínio Backend: [[api.dominio.com]]
+- Porta Frontend: 3000
+- Porta Backend: 4000
+- Porta Redis: 5000
+
+=====================================================================================
 
 07. Fix nginx.conf
-
-Corrigir erros de atualização da página.
 
 Edite o arquivo de configurações do nginx: 
 nano /etc/nginx/nginx.conf
@@ -157,74 +116,51 @@ Reinicie o serviço:
 
 service nginx reload
 
+
 =====================================================================================
-=====================================================================================
 
+08. Fix Baileys e Reinício Programado
 
-08. Fix Baileys, reinicio programado das aplicações node.
-
-Utilizamos as tarefas agendadas, cron jobs, para programar o comando pm2 restart all:
+Agende o reinício diário das aplicações às 23h59 no cron:
 
 crontab -e
 
-Se você tiver vários editores de texto instalados, o sistema solicitará que você selecione um editor para atualizar a lista de tarefas cron. Use o número entre parênteses para escolher sua opção preferida. Estaremos usando a opção padrão, nano. (Escolha numéricanúmerica).
-No modelo abaixo vai reninciar todo dia as 23h59h do frontend e do backend.
-
-59 23 * * * /usr/bin/node /usr/bin/pm2 restart al
-
-
-Para outras opções de modelos cron, acesse um dos sites abaixo:
-
-https://crontab.guru/
-https://crontab-generator.org/
-https://crontab.cronhub.io/
+59 23 * * * /usr/bin/node /usr/bin/pm2 restart all
 
 =====================================================================================
-=====================================================================================
 
-
-09. Comandos node / pm2
-
-=====================================================================================
-=====================================================================================
-
+09. Comandos Node / PM2
 Comando para build/re-build:
+
 sudo npm run build
-=====================================================================================
-=====================================================================================
-Comando para atualizar as bibliotecas;
+
+Comando para atualizar as bibliotecas:
+
 npm update --force
-=====================================================================================
-=====================================================================================
-Comando para reiniciar pm2:
+
+Comando para reiniciar PM2:
+
 pm2 restart all
-=====================================================================================
-=====================================================================================
-Log:
+
+Ver logs:
+
 pm2 log
 
-Limpeza de log:
+Limpeza de logs:
+
 pm2 flush "id"
-=====================================================================================
-=====================================================================================
 
-=====================================================================================
-=====================================================================================
+10. Procedimentos para VPSDime
+Atualizar pacotes do servidor:
 
-
-10. Particularidades VPSDime - Realize esse procedimentoprocedimentos antes da instalação.
-
-Atualize os pacotes de seu servidor:
 sudo apt -y update && apt -y upgrade
 
-*** Uncomplicated Firewall (UFW) não está instalado
-
-Instale o UFW, habilite e libere as portas, atenção em liberar a porta SSH para não perder o acesso ao servidor.
+Instalar e habilitar UFW (firewall):
 
 sudo apt-get install ufw
 sudo ufw enable
 
-Libere as portas a seguir: sudo ufw allow <port>/<protocol> =
+Liberar portas:
 
 sudo ufw allow 22/tcp
 sudo ufw allow 80/tcp
@@ -235,191 +171,76 @@ sudo ufw allow 5000/tcp
 sudo ufw allow 5432/tcp
 sudo ufw allow 6379/tcp
 
-Confira se as portas estão liberadas:
+Verificar portas liberadas:
+
 sudo ufw status
 
-Instale o Curl:
+Instalar Curl:
 
 sudo apt-get install curl
 
-Defina a versão para instalação do Node.js para a 20, senão ele irá instalar a versão 10.
-
-Execute esse comando para que a versão correta seja instalada:
+Definir versão do Node.js:
 
 curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 
-=====================================================================================
-=====================================================================================
+11. Configurações e Teste Redis
+Configurações Gerencianet:
 
-11. Habilitar Efi, Personalização e Teste Redis
-
-*** Gerencianet, atual Efi
-Para retorno automático é necessário uma aplicação no PC, Insomnia ou usar o Postman:
-
-backend / .env
-agrega estas linhas
+Adicionar as seguintes linhas no arquivo .env do backend:
 
 GERENCIANET_SANDBOX=false
 GERENCIANET_CLIENT_ID=Client_Id_Gerencianet
 GERENCIANET_CLIENT_SECRET=Client_Secret_Gerencianet
 GERENCIANET_PIX_CERT=certificado-Gerencianet
-GERENCIANET_PIX_KEY=chave pix gerencianet
+GERENCIANET_PIX_KEY=chave_pix_gerencianet
 
-Em backend\certs
-Salvar o certificado no formato .p12
+Alterar Cor Primária e Logotipos:
 
-Atualizar
-./update
+Cor Primária:
 
-(dentro do diretório do app, de permissão 777 antes através do terminal ssh com o comando chmod 777 update)
+frontend/src/App.js
+frontend/src/layout/index.js
 
-Fazer o WebHook:
- 
-Consulte o pdf no Google Drive.
-===================================================================================================================================================== 
+Logo e Favicon:
 
-*** Alterar Nome, Cor Primária, Logotipo e Favicon:
+frontend/src/assets (logo)
+frontend/public (favicon)
 
-** Alterar Cor Primária: (#2DDD7F)
-/frontend/src/App.js
-/frontend/src/layout/index.js
+Comando para rebuild do frontend:
 
-** Cores do Chat Interno: (validar)
-/frontend\src\pages\Chat\ChatMessages.js
-frontend\src\pages\Chat\ChatList.js
+cd /frontend
+npm run build
 
-** Cores da Lista de Tarefas (validar)
-/frontend/src/pages/ToDoList/index.js
-
-** Logo e LogoLogin:
-/frontend/src/assets
-
-** Icone e Favicon:
-/frontend/public
-
-** Comando para rebuild, caminho absoluto /home/deploy/"nome"/
-
-cd /frontend npm run build
-
-===================================================================================================================================================== 
-** Habilitar envio de 2ª Via de Boletos Asaas (Não confundir com cobrança de Planos Saas):
-
-Obter sua chave api no site da Asaas e inseri-lo no campo em configurações;
-
-Criar um fila de atendimento:
-
-Nome: 2ª Via de Boleto
-
-Mensagem de Saudação:
-
-Por favor nos forneça o CPF/CNPJ para consultarmos na nossa base de dados
-
-===================================================================================================================================================== 
-
-** Acesso ao PostgreSQL:
-
-Utilize o PGAdmin4, com as credencias do banco de dados salvas no arquivo .env do backend e os dados de acesso root, IP e senha como túnel.
-
-======================================================================================================================================================== 
-Redis - Banco de Dados de Agendamento
-A seguir encontra-se uma sequência de comandos usada para testar se a senha do Redis funciona. O primeiro comando tenta definir uma chave para um valor antes da autenticação:
-
-Teste (Com Docker)
+12. Redis - Teste
+Com Docker:
 
 docker ps
-docker exec -it CONTAINER ID bash
+docker exec -it CONTAINER_ID bash
 redis-cli
-auth sua_senha
+auth "sua_senha"
 
-(Sem Docker)
-redis-cli 
-set key1 10
-Isso não funcionará porque você não se autenticou, então o Redis retorna um erro:
+Sem Docker:
 
-(error) NOAUTH Authentication required.
-O próximo comando autentica-se com a senha especificada no arquivo de configuração do Redis:
-
-auth sua_senha
-O Redis reconhece:
-
-ping
-reposta: pong
- 
-Após confirmar que você é capaz de executar comandos no cliente Redis depois da autenticação, você poderá sair do redis-cli:
-
-quit
-
-=====================================================================================
-=====================================================================================
-
-12. Canais de Ajuda
-
-Ajuda (Diversos Canais)
-*não são específicos desse código
-https://help.whaticket.com/pt-br
-https://whaticket.online/
-https://www.youtube.com/@whaticketapp
-https://www.youtube.com/@multiconversaoficial
-https://www.youtube.com/@melissatreinamentos
-https://www.youtube.com/@astraonlineweb
-https://www.youtube.com/@equipechat
-https://blog.melissatreinamentos.tec.br/
-
-=====================================================================================
-=====================================================================================
-
-13. Instalação no Ubuntu 22
-Incapaz de criar o usuário deploy, criar manualmente antes da instalação.
-
-Acesse o terminal SSH e atualize seu servidor:
-
-sudo apt -y update && apt -y upgrade
-
-Adicione manualmente o usuário deploy:
-
-adduser deploy
-
-* Insira a senha
-* Repita a senha
-* Enter para os campos de dados pessoais, não preencher.
-
-usermod -aG sudo deploy
-ou
-adduser deploy sudo
-
-Baixe o instalador:
-
-cd /home
-ls
-sudo apt install -y git && git clone https://github.com/launcherbr/instalador.git instalador && sudo chmod -R 777 instalador  && cd instalador  && sudo ./install_primaria
-
-=====================================================================================
-=====================================================================================
-
-Teste do redis/docker:
-docker ps
-docker exec -it redis-[[nome do app]] bash
 redis-cli
-auth [[senhadeploy]]
-ping
-reposta: pong
+auth "sua_senha"
 
-* fix, caso pm2 status não liste os apps depois de um reboot:
+Como Atualizar o TZAP
+1. FRONTEND
+npm install
 
-sudo su - deploy
-cd /home/deploy/[[nome do app]]/frontend
-sudo pm2 start server.js --name [[nome do app]]-frontend
-sudo pm2 save --force
+Entre na pasta do frontend:
+cd /home/deploy/suaempresa/frontend
 
-sudo su - deploy
-cd /home/deploy/[[nome do app]]/backend
-sudo pm2 start dist/server.js --name [[nome do app]]-backend
-sudo pm2 save --force
+2. BACKEND
+npm install
+npm run build
+npx sequelize db
 
-* caso salvo acima, e não aparece após o novo reboot, repetir e incluir estes comandos:
-sudo su - root
-pm2 startup
-sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u deploy --hp /home/deploy
+npm run build
 
-=====================================================================================
-=====================================================================================
+3. FRONTEND
+npm run build
+
+4. Reiniciar PM2
+pm2 restart all
+pm2 save
