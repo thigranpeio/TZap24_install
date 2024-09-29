@@ -223,5 +223,7 @@ npm run build
 
 aperte cd para apagar o caminho
 
-4-pm2 restart all
+4-
+pm2 restart all
+
 pm2 save
