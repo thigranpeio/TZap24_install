@@ -1,246 +1,219 @@
 ORIENTAÇÕES SOBRE O TZAP
-
-Índice:
-
+Índice
+Informações Importantes
+Link do GitHub
+Dados do Servidor e da Instalação
+Atualizar o Servidor e Reiniciar - Passo 01
+Instalador do Whaticket - Passo 02
+Processo de Instalação no Terminal SSH - Passo 03
+Fix nginx.conf
+Fix Baileys, Reinício Programado das Aplicações Nodes
+Comandos node / pm2
+Particularidades VPSDime - Realize esse procedimento antes da instalação
+Habilitar EFI, Personalização e Teste Redis
 01. Informações Importantes
+Utilizar Ubuntu 20.04
+
+Mínimo requerido: 4 vCPU e 6GB RAM
+Recomendado: 4 vCPU e 8GB RAM
+Instalação
+
+Somente instale quando os endereços de frontend e backend estiverem pingando para o IP do servidor.
+Verifique se está propagado em todas as regiões usando: https://dnschecker.org
+Regras de nomeação
+
+Não utilize caracteres especiais, letras maiúsculas ou números no nome do app.
+Verifique portas e firewall
+
+As portas utilizadas são: 22, 80, 443, 3000, 4000, 5000, 5432, 6379.
+Se o servidor não acessa diretamente com o usuário root, habilite com sudo su ou sudo passwd root.
+Usuário e empresas no sistema
+
+Nunca exclua o usuário admin (ID 1) e a empresa criada durante a instalação.
+Ao editar o superadmin, não se esqueça de definir uma senha.
+
+Envio de campanhas
+
+Ative o envio de campanhas em "Configurações e Empresas". Após ativar, faça logout e login novamente.
+Gerenciamento de horários
+
+Ao alterar o gerenciamento de horários, esvazie os campos preenchidos do formato anterior para evitar conflitos no banco de dados.
+
 02. Link do GitHub
+Instalador:
+https://github.com/thigranpeio/TZap24_install.git
+
+Código:
+https://github.com/thigranpeio/TZap24.git
+
 03. Dados do Servidor e da Instalação
-04. Atualizar o Servidor e Reiniciar - Passo 01
-05. Instalador do Whaticket - Passo 02
-06. Processo de instalação no terminal ssh - Passo 03
-07. Fix nginx.conf
-08. Fix Baileys, reinício programado das aplicações nodes
-09. Comandos node / pm2
-10. Particularidades VPSDime - Procedimento antes da instalação
-11. Habilitar Efi, Personalização e Teste Redis
-12. Canais de Ajuda
-13. Instalação com Docker / Ubuntu 22
-14. Como Atualizar o TZAP
-
-=====================================================================================
-
-01. Informações Importantes
-
-- Utilize Ubuntu 20.04
-- Mínimo requerido: 4 vcpu e 6gb RAM
-- Recomendado: 4 vcpu e 8gb RAM
-
-** Somente instale quando os endereços de frontend e backend estiverem pingando para o IP do servidor.
-
-- Confira em https://dnschecker.org/ se está propagado em todas as regiões.
-- Não utilize caracteres especiais, letras maiúsculas ou números no nome do app.
-- Confira se o provedor de serviço VPS tem firewall e libere as portas 22, 80, 443, 3000, 4000, 5000, 5432 e 6379.
-- Caso o servidor não acesse direto com root, use `sudo su` ou `sudo passwd root` para habilitar o login root.
-
-** Nunca delete o usuário admin (id 1) ou a empresa criada na instalação.
-** Habilite o envio de campanhas em "configurações" e "empresas". Após ativar, faça logout e login para o menu aparecer.
-** Exclua o Plano 1 e vincule outro plano à empresa 1 antes de adicionar novas conexões, filas e usuários.
-** Ao mudar gerenciamento de horários, limpe os campos de horário anteriores.
-
-=====================================================================================
-
-02. Link do GitHub
-
-- Instalador: https://github.com/thigranpeio/TZap24_install.git
-- Código: https://github.com/thigranpeio/TZap24.git
-
-=====================================================================================
-
-03. Dados da Instalação
-
-- Frontend: [[app.dominio.com]]
-- Backend/API: [[api.dominio.com]]
-- App: [[nomedoapp]]
-- Senha Deploy: [[senha-alfanumérica]]
-- Usuário super-admin: admin@admin.com
-- Senha: 123456
-
-=====================================================================================
+Frontend: [[app.dominio.com]]
+Backend/API: [[api.dominio.com]]
+App: [[nomedoapp]]
+Senha deploy: [[senha-alfanumérica]]
+Usuário super-admin: admin@admin.com
+Senha: 123456
 
 04. Passo 01 - Atualizar o Servidor
-
-Atualize os pacotes do Ubuntu com privilégios root:
-
+Atualizar pacotes:
 sudo apt -y update && apt -y upgrade
 
-
-Reinicie o servidor:
-
+Reiniciar o servidor:
 reboot
 
-
-=====================================================================================
-
 05. Passo 02 - Baixar o Instalador do GitHub
-
-Execute os comandos no terminal SSH:
-
-cd /home sudo apt install -y git && git clone https://github.com/thigranpeio/TZap24_install.git instalador && sudo chmod -R 777 instalador && cd instalador && sudo ./install_primaria
-
-
-
-=====================================================================================
+Execute esses comandos no cliente SSH (recomendado Bitvise):
+cd /home
+ls
+sudo apt install -y git && git clone https://github.com/thigranpeio/TZap24_install.git instalador && sudo chmod -R 777 instalador && cd instalador && sudo ./install_primaria
 
 06. Passo 03 - Executar a Instalação
+Siga o passo a passo do terminal exibido. Tenha atenção ao copiar e colar para não incluir espaços no final da expressão:
 
-Siga o passo a passo do terminal.
+[0] Instalar
 
-Exemplo de preenchimento:
+Insira a senha para o usuário Deploy e Banco de Dados (não utilize caracteres especiais ou letras maiúsculas):
+[[senhadeploy]]
 
-- Conexões/Whats: 9999
-- Usuários/Atendentes: 9999
-- Domínio Frontend: [[app.dominio.com]]
-- Domínio Backend: [[api.dominio.com]]
-- Porta Frontend: 3000
-- Porta Backend: 4000
-- Porta Redis: 5000
+Insira o link do GitHub do seu Whaticket que deseja instalar:
+https://github.com/thigranpeio/TZap24.git
 
-=====================================================================================
+Informe um nome para a Instância/Empresa que será instalada (utilize somente letras minúsculas):
+tzap
+
+Informe a quantidade de Conexões/Whats que poderá cadastrar (de 1 a 9999):
+9999
+
+Informe a quantidade de Usuários/Atendentes que poderá cadastrar (de 1 a 9999):
+9999
+
+Digite o domínio do FRONTEND/PAINEL, exemplo:
+app.appbot.cloud
+
+Digite o domínio do BACKEND/API, exemplo:
+api.appbot.cloud
+
+Digite a porta do FRONTEND, exemplo:
+3000
+
+Digite a porta do BACKEND, exemplo:
+4000
+
+Digite a porta do REDIS/AGENDAMENTO, exemplo:
+5000
 
 07. Fix nginx.conf
+Corrigir erros de atualização da página.
+Edite o arquivo de configurações do nginx:
 
-Edite o arquivo de configurações do nginx: 
 nano /etc/nginx/nginx.conf
 
-adicione o header abaixo: (imediatamente acima de # server_tokens off;)
-
+Adicione o seguinte header (imediatamente acima de # server_tokens off;):
 underscores_in_headers on;
 
-+ Ctrl e X para fechar o terminal, e Y para salvar as alterações.
+Feche e salve as alterações pressionando Ctrl + X, depois Y.
 
 Teste as alterações do nginx:
-
 nginx -t
 
 Reinicie o serviço:
-
 service nginx reload
 
-
-=====================================================================================
-
-08. Fix Baileys e Reinício Programado
-
-Agende o reinício diário das aplicações às 23h59 no cron:
-
+08. Fix Baileys - Reinício Programado das Aplicações Node
+Utilize as tarefas agendadas (cron jobs) para programar o comando pm2 restart all:
 crontab -e
 
+Se você tiver vários editores de texto instalados, o sistema solicitará que você selecione um editor. Use o número correspondente para escolher o editor, como nano (opção padrão).
+
+Exemplo de cron job que reinicia o frontend e o backend todo dia às 23h59:
 59 23 * * * /usr/bin/node /usr/bin/pm2 restart all
 
-=====================================================================================
+Para criar outros modelos de cron, consulte um dos sites abaixo:
+https://crontab.guru/
+https://crontab-generator.org/
+https://crontab.cronhub.io/
 
-09. Comandos Node / PM2
-Comando para build/re-build:
-
+09. Comandos node / pm2
+Comando para build/rebuild:
 sudo npm run build
 
 Comando para atualizar as bibliotecas:
-
 npm update --force
 
-Comando para reiniciar PM2:
-
+Comando para reiniciar pm2:
 pm2 restart all
 
-Ver logs:
-
+Logs do pm2:
 pm2 log
 
-Limpeza de logs:
-
+Limpeza de logs do pm2:
 pm2 flush "id"
 
-10. Procedimentos para VPSDime
-Atualizar pacotes do servidor:
+Alterar Nome, Cor Primária, Logotipo e Favicon
+Alterar cor primária (#2DDD7F):
+/frontend/src/App.js
+/frontend/src/layout/index.js
 
-sudo apt -y update && apt -y upgrade
+Alterar cores do Chat Interno:
+/frontend/src/pages/Chat/ChatMessages.js
+/frontend/src/pages/Chat/ChatList.js
 
-Instalar e habilitar UFW (firewall):
+Alterar cores da Lista de Tarefas:
+/frontend/src/pages/ToDoList/index.js
 
-sudo apt-get install ufw
-sudo ufw enable
+Alterar logo e logotipo de login:
+/frontend/src/assets
 
-Liberar portas:
+Alterar ícone e favicon:
+/frontend/public
 
-sudo ufw allow 22/tcp
-sudo ufw allow 80/tcp
-sudo ufw allow 443/tcp
-sudo ufw allow 3000/tcp
-sudo ufw allow 4000/tcp
-sudo ufw allow 5000/tcp
-sudo ufw allow 5432/tcp
-sudo ufw allow 6379/tcp
-
-Verificar portas liberadas:
-
-sudo ufw status
-
-Instalar Curl:
-
-sudo apt-get install curl
-
-Definir versão do Node.js:
-
-curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-
-11. Configurações e Teste Redis
-Configurações Gerencianet:
-
-Adicionar as seguintes linhas no arquivo .env do backend:
-
-GERENCIANET_SANDBOX=false
-GERENCIANET_CLIENT_ID=Client_Id_Gerencianet
-GERENCIANET_CLIENT_SECRET=Client_Secret_Gerencianet
-GERENCIANET_PIX_CERT=certificado-Gerencianet
-GERENCIANET_PIX_KEY=chave_pix_gerencianet
-
-Alterar Cor Primária e Logotipos:
-
-Cor Primária:
-
-frontend/src/App.js
-frontend/src/layout/index.js
-
-Logo e Favicon:
-
-frontend/src/assets (logo)
-frontend/public (favicon)
-
-Comando para rebuild do frontend:
-
+Comando para rebuild (caminho absoluto /home/deploy/"nome"/):
 cd /frontend
 npm run build
 
-12. Redis - Teste
-Com Docker:
+Acesso ao PostgreSQL
+Utilize o PGAdmin4 com as credenciais do banco de dados salvas no arquivo .env do backend, além dos dados de acesso root, IP e senha para configurar o túnel.
+Redis - Banco de Dados de Agendamento
+Sequência de comandos para testar se a senha do Redis funciona:
 
+Testar com Docker:
 docker ps
 docker exec -it CONTAINER_ID bash
 redis-cli
-auth "sua_senha"
+auth sua_senha
 
-Sem Docker:
-
+Testar sem Docker:
 redis-cli
-auth "sua_senha"
+set key1 10
 
-Como Atualizar o TZAP
-1. FRONTEND
+Caso não funcione, você verá o erro:
+(error) NOAUTH Authentication required.
+
+Autenticar com a senha configurada no Redis:
+auth sua_senha
+
+Testar conexão com Redis:
+ping
+Resposta esperada: pong
+
+Sair do cliente Redis:
+quit
+
+Atualizar o TZAP
+FRONTEND
 npm install
+Caminho da pasta: cd /home/deploy/suaempresa/frontend
 
-Entre na pasta do frontend:
-cd /home/deploy/suaempresa/frontend
-
-2. BACKEND
+BACKEND
 npm install
 npm run build
 npx sequelize db
 
 npm run build
 
-3. FRONTEND
+FRONTEND
 npm run build
 
-4. Reiniciar PM2
+Reiniciar com pm2:
 pm2 restart all
 pm2 save
