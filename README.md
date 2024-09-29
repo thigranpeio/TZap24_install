@@ -199,21 +199,29 @@ Resposta esperada: pong
 Sair do cliente Redis:
 quit
 
-Atualizar o TZAP
-FRONTEND
+ATUALIZAR O TZAP
+
+1-FRONTEND
+
 npm install
-Caminho da pasta: cd /home/deploy/suaempresa/frontend
 
-BACKEND
+
+
+caminho da pasta do frontend cd /home/deploy/suaempresa/backend
+
+2-BACKEND
+
 npm install
 npm run build
-npx sequelize db
+npx sequelize db:migrate
+npm run build
+
+3-FRONTEND
 
 npm run build
 
-FRONTEND
-npm run build
 
-Reiniciar com pm2:
-pm2 restart all
+aperte cd para apagar o caminho
+
+4-pm2 restart all
 pm2 save
