@@ -201,13 +201,17 @@ quit
 
 ATUALIZAR O TZAP
 
+OBS. ATUALIZAR USANDO O USUARIO DEPLOY
+
+caminho da pasta do frontend cd /home/deploy/suaempresa/frontend
+
 1-FRONTEND
 
 npm install
 
 
 
-caminho da pasta do frontend cd /home/deploy/tzap/backend
+caminho da pasta do frontend cd /home/deploy/suaempresa/backend
 
 2-BACKEND
 
@@ -223,7 +227,6 @@ npm run build
 
 aperte cd para apagar o caminho
 
-4-
-pm2 restart all
-
+4-pm2 restart all
 pm2 save
+
