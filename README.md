@@ -207,7 +207,7 @@ npm install
 
 
 
-caminho da pasta do frontend cd /home/deploy/suaempresa/backend
+caminho da pasta do frontend cd /home/deploy/tzap/backend
 
 2-BACKEND
 
