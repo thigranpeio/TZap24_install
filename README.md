@@ -202,31 +202,34 @@ quit
 ATUALIZAR O TZAP
 
 OBS. ATUALIZAR USANDO O USUARIO DEPLOY
-
+1- 
+FRONTEND
 caminho da pasta do frontend cd /home/deploy/suaempresa/frontend
 
-1-FRONTEND
+NPM INSTALL
+NPM START
 
-npm install
-
-
-
+2-
+BACKEND
 caminho da pasta do frontend cd /home/deploy/suaempresa/backend
 
-2-BACKEND
+NPM INSTALL
+NPM RUN BUILD
+NPX SEQUELIZE DB:MIGRATE
+NPX SEQUELIZE DB:SEED:ALL
+NPM START
 
-npm install
-npm run build
-npx sequelize db:migrate
-npm run build
+3-
+FRONTEND
 
-3-FRONTEND
-
-npm run build
+NPM RUN BUILD
 
 
+
+
+4-
 aperte cd para apagar o caminho
 
-4-pm2 restart all
+pm2 restart all
 pm2 save
 
